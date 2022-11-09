@@ -1,0 +1,28 @@
+{
+  "name": "papertrader",
+  "version": "1.0.0",
+  "description": "Paper trader discord bot allowing users to trade stocks with real time price updates and fake money",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3"
+  },
+  "scripts": {
+    "start": "ts-node src/Bot.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julian31186/PaperTrader.git"
+  },
+  "author": "Julian Elmasry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/julian31186/PaperTrader/issues"
+  },
+  "homepage": "https://github.com/julian31186/PaperTrader#readme",
+  "dependencies": {
+    "discord.js": "^14.6.0"
+  }
+}
