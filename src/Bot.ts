@@ -6,4 +6,5 @@ const client = new Client({
     intents: []
 });
 
+
 console.log(client);
