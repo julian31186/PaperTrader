@@ -7,6 +7,7 @@ import interactionCreate from "./listeners/interactionCreate";
 //figure out COMPLETELY how this discordjs lib is working and how everything works in conjunction
 //figure out how to set up MONGODB and setup a user
 //setup prisma
+//when bot finished compose with docker
 
 
 //PORT TO ENV BEFORE HOSTING BOT
