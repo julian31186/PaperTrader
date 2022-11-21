@@ -8,7 +8,7 @@ export const Hello: Command = {
         const content = "Hello there!";
 
         await interaction.followUp({
-            ephemeral: true,
+            //ephemeral: false,
             content,
         });
     }

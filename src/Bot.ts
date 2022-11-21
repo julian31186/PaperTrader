@@ -9,7 +9,6 @@ import interactionCreate from "./listeners/interactionCreate";
 //setup prisma
 //when bot finished compose with docker
 //on bot ready, initialize the mongo db (will it save data if bot goes off then comes back on)
-//setup nodemon***
 
 
 
