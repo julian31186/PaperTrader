@@ -9,7 +9,7 @@ export const Hello: Command = {
 
         await interaction.followUp({
             ephemeral: true,
-            content
+            content,
         });
     }
 };
