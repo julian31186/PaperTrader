@@ -10,7 +10,6 @@ export const createPortfolio: Command = {
         //check if user exists already and possibly mess with schema 
         let content;
         let initialPortfolio: Purchase[] = []
-       
 
         try {
             const doesUserExit = await userModel.exists({ discordId: interaction.user.tag});
@@ -23,7 +22,7 @@ export const createPortfolio: Command = {
                     balance: 10000,
                     portfolio: initialPortfolio,
                 })
-                content = `Hello ${interaction.user.tag}!, we have successfully created a user for you!`;
+                content = `${interaction.user.tag}!, we have successfully created a portfolio for you!`;
             }
             
         } catch(e) {
