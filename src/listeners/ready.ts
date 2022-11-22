@@ -1,5 +1,6 @@
 import { Client } from "discord.js";
 import { Commands } from "../Commands";
+import { connectDatabase } from "./connectDatabase";
 
 export default (client: Client): void => {
     client.on("ready", async () => {
@@ -8,6 +9,7 @@ export default (client: Client): void => {
         }
 
         await client.application.commands.set(Commands);
+        connectDatabase()
 
         console.log(`${client.user.username} is online`);
     });
