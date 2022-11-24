@@ -1,5 +1,6 @@
 import { Command } from "./Command";
 import { createPortfolio } from "./commands/createPortfolio";
-import { Hello } from "./commands/Hello";
+import { deletePortfolio } from "./commands/deletePortfolio";
 
-export const Commands: Command[] = [Hello,createPortfolio];
+
+export const Commands: Command[] = [createPortfolio,deletePortfolio];

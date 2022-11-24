@@ -6,15 +6,19 @@ export interface Purchase {
     totalPrice: number
 }
 
-export interface UserInt {
+export interface UserInt extends Document{
     discordId: string,
-    balance: number,
+    totalBalance: number,
+    liquidBalance: number,
+    holdingsBalance: number,
     portfolio: Purchase[],
 }
 
 export const User = new Schema({
     discordId: String,
-    balance: Number,
+    totalBalance: Number,
+    liquidBalance: Number,
+    holdingsBalance: Number,
     portfolio: Schema.Types.Mixed,
 })
 
