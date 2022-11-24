@@ -1,4 +1,4 @@
-import { CommandInteraction, Client, Embed } from "discord.js";
+import { CommandInteraction, Client, ChatInputCommandInteraction, Embed } from "discord.js";
 import { Command } from "../Command";
 import userModel from '../model/userSchema'
 
@@ -8,7 +8,7 @@ import userModel from '../model/userSchema'
 export const deletePortfolio: Command = {
     name: "delete_portfolio",
     description: "Deletes users portfolio allowing them to start from scratch.",
-    run: async (client: Client, interaction: CommandInteraction ) => {
+    run: async (client: Client, interaction: ChatInputCommandInteraction ) => {
         const doesUserExistDelete = await userModel.exists({discordId:interaction.user.tag});
         let content;
 

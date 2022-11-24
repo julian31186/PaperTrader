@@ -1,4 +1,4 @@
-import { CommandInteraction, Client, Embed } from "discord.js";
+import { CommandInteraction, Client, ChatInputCommandInteraction, Embed } from "discord.js";
 import { Command } from "../Command";
 import userModel, { Purchase } from '../model/userSchema'
 import { EmbedBuilder } from "discord.js";
@@ -7,7 +7,7 @@ import { EmbedBuilder } from "discord.js";
 export const createPortfolio: Command = {
     name:"create_portfolio",
     description:"Creates a portfolio starting with $10k USD",
-    run: async(client: Client, interaction: CommandInteraction) => {
+    run: async(client: Client, interaction: ChatInputCommandInteraction) => {
         let content;
         
        
@@ -46,7 +46,6 @@ export const createPortfolio: Command = {
         
 
         } catch(e) {
-            console.log("You already have a portfolio!")
             content = `${interaction.user.tag} already has an existing portfolio!`
             await interaction.followUp({
                 content,

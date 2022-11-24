@@ -6,7 +6,6 @@ import interactionCreate from "./listeners/interactionCreate";
 //TODO
 //setup prisma
 //when bot finished compose with docker
-//setup alpaca API
 //possibly make createPort embed look nicer
 
 
