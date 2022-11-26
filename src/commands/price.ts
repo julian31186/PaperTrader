@@ -9,13 +9,13 @@ export const price: Command = {
     run: async(client: Client, interaction: ChatInputCommandInteraction) => {
         try {
         var yahooStockPrices = require('yahoo-stock-prices');
-        const data = await yahooStockPrices.getCurrentData(interaction.options.getString('ticker'));
+        const ticker = interaction.options.getString('ticker')?.toUpperCase()
+        const data = await yahooStockPrices.getCurrentData(ticker);
 
-        let content = `The price of \$${interaction.options.getString('ticker')} is \$${data.price}`
+        let content = `The price of \$${ticker} is \$${data.price}`
         await interaction.followUp(content)
         } catch(e) {
             await interaction.followUp("Please Enter a Valid Ticker!")
         }
     }
 };
-

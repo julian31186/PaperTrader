@@ -15,7 +15,6 @@ import interactionCreate from "./listeners/interactionCreate";
 //total balance is always liquid+holding
 
 
-
 //Viewing port logic
 //loop through purchase array, create a hashmap of ticker:quantity while looping through purchases and show TICKER:QUANTIY totals
 //also show net port balance on top

@@ -2,6 +2,8 @@ import { Client, ChatInputCommandInteraction, Embed } from "discord.js";
 import { Command } from "src/Command";
 import { Commands } from "../Commands";
 
+//add buy sell to /help after they are done and portfolio
+
 
 export const help: Command = {
     name: "help",
