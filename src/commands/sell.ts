@@ -21,16 +21,32 @@ export const sell: Command = {
             return;
         }
 
+
+        let tickerQuantity = new Map()
+
         arr.portfolio.map(purchase => {
+            if(!tickerQuantity.has(purchase.ticker)) {
+                tickerQuantity.set(purchase.ticker, 1)
+            }
+
+            else if(tickerQuantity.has(purchase.ticker)) {
+                tickerQuantity.set(purchase.ticker, tickerQuantity.get(purchase.ticker) + 1)
+            }
+
             if(purchase.ticker === ticker) {
                 owns = true
-                quantity = purchase.quantity
             }
+            
         })
+
+    
         if(owns === false) {
             await interaction.followUp({ content:"You do not own this stock!"})
             return;
         }
+
+        quantity = tickerQuantity.get(ticker)
+
         if(sellQuantity > quantity) {
             await interaction.followUp({ content:"You do not own this many shares of this stock!"})
             return;
@@ -57,11 +73,38 @@ export const sell: Command = {
         let totalSale = singleSellPrice.price * sellQuantity
 
 
+        //figure out to make sure this only removes sellQuantity objects from the mongo array
+        //BUG: where holding bal goes to negative infinity after selling??
+        let count = 0
+        
+
+        
+
+        //this also dosent work because if a purchase object is more than one, for example 2
+        //and the user sells, one it deletes the entier thing so in order to fix we must
+        //check if its > 1 and if so create a new purchase object, and add it to array, then update balances accordingly
+        //********** */
+        let newArr: any[] = []
+            for (let i = 0; i < arr.portfolio.length; i++) {
+              if(count === sellQuantity) break;
+
+              if(arr.portfolio[i].ticker === ticker) {
+                newArr.push(arr.portfolio[i])
+                count++;
+              } else {
+                newArr.push(arr.portfolio[i])
+              }
+            }
+        
         await userModel.updateOne({discordId:interaction.user.tag},
             {
-            "$pull":{"portfolio":{"ticker": `${ticker}`}},
+                //switch this to just remove the purchase object from the purchase array
+                //rather than pull bc pull removes all 
+            //"$pull":{"portfolio":{"ticker": `${ticker}`}},
             
             $set: {
+                portfolio: newArr,
+
                 liquidBalance: availableCash + totalSale,
 
                 //this only works if hold bal is being constantly refreshed to make sure we dont go negative

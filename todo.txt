@@ -1,0 +1,5 @@
+-selling object logic broken // updating holding balnce
+
+-updating holding balance logic is broken
+
+-create fetch holding func thats called before every command to update balance accordignly 
