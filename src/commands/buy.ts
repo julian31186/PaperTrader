@@ -40,8 +40,26 @@ export const buy: Command = {
                 quantity: 1,
                 totalPrice: 26
             }
-            userModel.updateOne({discordId: interaction.user.tag}, {$push: {portfolio: {ticker: testPurchase.ticker, quantity: testPurchase.quantity, totalPrice: testPurchase.totalPrice}}})
-            await interaction.followUp({content: 'Purchase Successful!'})
+            // userModel.updateOne({discordId: interaction.user.tag}, {$push: {portfolio: {ticker: testPurchase.ticker, quantity: testPurchase.quantity, totalPrice: testPurchase.totalPrice}}})
+            // await interaction.followUp({content: 'Purchase Successful!'})
+
+
+            //push testpurchase to the portfolio array of the user
+             userModel.update({
+                 discordId: interaction.user.tag
+                }, {
+                    $push: {
+                        portfolio: {
+                            "ticker": testPurchase.ticker,
+                            "quantity": testPurchase.quantity,
+                            "totalPrice": testPurchase.totalPrice,
+                        }
+                    }
+                })
+                await interaction.followUp({content: 'Purchase Successful!'})
+            
+            
+
 
         }
            

@@ -21,7 +21,7 @@ export const User = new Schema({
     holdingsBalance: Number,
     portfolio: [{ticker: String,
                  quantity: Number,
-                 totalPrice: Number}],
+                 totalPrice: Number}]
 })
 
 
