@@ -19,7 +19,9 @@ export const User = new Schema({
     totalBalance: Number,
     liquidBalance: Number,
     holdingsBalance: Number,
-    portfolio: Schema.Types.Mixed,
+    portfolio: [{ticker: String,
+                 quantity: Number,
+                 totalPrice: Number}],
 })
 
 

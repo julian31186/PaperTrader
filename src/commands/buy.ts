@@ -33,8 +33,16 @@ export const buy: Command = {
         else {
             //create a new purchase object of the ticker, the price of the ticker and subtract that amount from liquid
             //add the purchase object to the portfolio array of that user 
-
             //figure out how to add a purchas object to mongo portfolio
+
+            const testPurchase: Purchase = {
+                ticker: 'GME',
+                quantity: 1,
+                totalPrice: 26
+            }
+            userModel.updateOne({discordId: interaction.user.tag}, {$push: {portfolio: {ticker: testPurchase.ticker, quantity: testPurchase.quantity, totalPrice: testPurchase.totalPrice}}})
+            await interaction.followUp({content: 'Purchase Successful!'})
+
         }
            
     }
