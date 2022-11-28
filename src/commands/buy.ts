@@ -35,28 +35,44 @@ export const buy: Command = {
             //add the purchase object to the portfolio array of that user 
             //figure out how to add a purchas object to mongo portfolio
 
+
+            let testPrice = (await yahooStockPrices.getCurrentData(ticker))
             const testPurchase: Purchase = {
                 ticker: 'GME',
                 quantity: 1,
-                totalPrice: 26
+                totalPrice: testPrice.price,
             }
             // userModel.updateOne({discordId: interaction.user.tag}, {$push: {portfolio: {ticker: testPurchase.ticker, quantity: testPurchase.quantity, totalPrice: testPurchase.totalPrice}}})
             // await interaction.followUp({content: 'Purchase Successful!'})
 
 
-            //push testpurchase to the portfolio array of the user
-             userModel.update({
-                 discordId: interaction.user.tag
-                }, {
-                    $push: {
-                        portfolio: {
-                            "ticker": testPurchase.ticker,
-                            "quantity": testPurchase.quantity,
-                            "totalPrice": testPurchase.totalPrice,
-                        }
+            //push the purchase object to the portfolio array of the user
+            let grabOldHoldBal = await userModel.findOne({discordId: interaction.user.tag} , {holdingsBalance:1 , _id:0});
+            let oldHoldBal = grabOldHoldBal?.holdingsBalance;
+
+            await userModel.updateOne({
+                discordId: interaction.user.tag
+            }, {
+                $push: {
+                    portfolio: {
+                        ticker: testPurchase.ticker,
+                        quantity: testPurchase.quantity,
+                        totalPrice: testPurchase.totalPrice
                     }
-                })
-                await interaction.followUp({content: 'Purchase Successful!'})
+                },
+                $set: {
+                    liquidBalance: availableCash - totalCost,
+                    holdingsBalance: oldHoldBal + totalCost,
+                }
+            })
+
+            
+
+
+
+            await interaction.followUp({content: 'Purchase Successful!'})
+
+
             
             
 
