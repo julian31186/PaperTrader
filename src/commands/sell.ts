@@ -79,7 +79,6 @@ export const sell: Command = {
         
 
         
-
         //this also dosent work because if a purchase object is more than one, for example 2
         //and the user sells, one it deletes the entier thing so in order to fix we must
         //check if its > 1 and if so create a new purchase object, and add it to array, then update balances accordingly
@@ -96,7 +95,7 @@ export const sell: Command = {
               }
             }
 
-            
+
         
         await userModel.updateOne({discordId:interaction.user.tag},
             {
