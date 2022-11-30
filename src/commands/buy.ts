@@ -34,6 +34,7 @@ export const buy: Command = {
             //create a new purchase object of the ticker, the price of the ticker and subtract that amount from liquid
             //add the purchase object to the portfolio array of that user 
             //figure out how to add a purchas object to mongo portfolio
+            
 
 
             let testPrice = (await yahooStockPrices.getCurrentData(ticker))
@@ -42,9 +43,6 @@ export const buy: Command = {
                 quantity: 1,
                 totalPrice: testPrice.price,
             }
-            // userModel.updateOne({discordId: interaction.user.tag}, {$push: {portfolio: {ticker: testPurchase.ticker, quantity: testPurchase.quantity, totalPrice: testPurchase.totalPrice}}})
-            // await interaction.followUp({content: 'Purchase Successful!'})
-
 
             //push the purchase object to the portfolio array of the user
             let grabOldHoldBal = await userModel.findOne({discordId: interaction.user.tag} , {holdingsBalance:1 , _id:0});
@@ -66,17 +64,8 @@ export const buy: Command = {
                 }
             })
 
-            
-
-
 
             await interaction.followUp({content: 'Purchase Successful!'})
-
-
-            
-            
-
-
         }
            
     }
