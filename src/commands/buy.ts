@@ -22,10 +22,16 @@ export const buy: Command = {
         } catch(e) { await interaction.followUp("Please Enter a Valid Ticker!") }
 
 
-        try {
-            query = await userModel.findOne({discordId: interaction.user.tag} , {liquidBalance:1 , _id:0});
-            availableCash = query?.liquidBalance;
-        } catch(e) { await interaction.followUp({content: 'Error finding user'})}
+        
+        query = await userModel.findOne({discordId: interaction.user.tag} , {liquidBalance:1 , _id:0});
+        availableCash = query?.liquidBalance;
+        
+        if(!query) {
+            await interaction.followUp({content: 'Error finding user, please create a portfolio'})
+            return;
+        }
+        
+        
 
     
         if(availableCash < totalCost) { await interaction.followUp("You do not have enough money for this order!") }
