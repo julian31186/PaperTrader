@@ -34,14 +34,16 @@ export const buy: Command = {
             //create a new purchase object of the ticker, the price of the ticker and subtract that amount from liquid
             //add the purchase object to the portfolio array of that user 
             //figure out how to add a purchas object to mongo portfolio
-            
 
 
-            let testPrice = (await yahooStockPrices.getCurrentData(ticker))
-            const testPurchase: Purchase = {
-                ticker: 'GME',
-                quantity: 1,
-                totalPrice: testPrice.price,
+
+            let singlePrice = (await yahooStockPrices.getCurrentData(ticker))
+            let finalPrice = singlePrice.price * interaction.options.getInteger('quantity')
+
+            const purchase: Purchase = {
+                ticker: interaction.options.getString('ticker')?.toUpperCase(),
+                quantity: interaction.options.getInteger('quantity'),
+                totalPrice: finalPrice,
             }
 
             //push the purchase object to the portfolio array of the user
@@ -53,9 +55,9 @@ export const buy: Command = {
             }, {
                 $push: {
                     portfolio: {
-                        ticker: testPurchase.ticker,
-                        quantity: testPurchase.quantity,
-                        totalPrice: testPurchase.totalPrice
+                        ticker: purchase.ticker,
+                        quantity: purchase.quantity,
+                        totalPrice: purchase.totalPrice
                     }
                 },
                 $set: {
