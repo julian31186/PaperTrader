@@ -19,8 +19,10 @@ export const buy: Command = {
         try {
         totalCost = (await yahooStockPrices.getCurrentData(ticker))
         totalCost = totalCost.price * quantity
-        } catch(e) { await interaction.followUp("Please Enter a Valid Ticker!") }
-
+        } catch(e) { 
+            await interaction.followUp("Please Enter a Valid Ticker!") 
+            return;
+        }
 
         
         query = await userModel.findOne({discordId: interaction.user.tag} , {liquidBalance:1 , _id:0});
@@ -32,16 +34,11 @@ export const buy: Command = {
         }
         
         
-
-    
         if(availableCash < totalCost) { await interaction.followUp("You do not have enough money for this order!") }
 
         else {
             //create a new purchase object of the ticker, the price of the ticker and subtract that amount from liquid
             //add the purchase object to the portfolio array of that user 
-            //figure out how to add a purchas object to mongo portfolio
-
-
 
             let singlePrice = (await yahooStockPrices.getCurrentData(ticker))
             let finalPrice = singlePrice.price * interaction.options.getInteger('quantity')
