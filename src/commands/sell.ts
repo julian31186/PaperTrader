@@ -95,6 +95,7 @@ export const sell: Command = {
                 newArr.push(arr.portfolio[i])
               }
             }
+
             
         
         await userModel.updateOne({discordId:interaction.user.tag},
