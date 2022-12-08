@@ -1,5 +1,7 @@
 -selling object logic broken // updating holding balnce
 
+-most likely just rework buy with 1 object per ticker
+
 -updating holding balance logic is broken
 
 -create fetch holding func thats called before every command to update balance accordignly 
