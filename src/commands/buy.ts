@@ -56,6 +56,8 @@ export const buy: Command = {
             await userModel.updateOne({
                 discordId: interaction.user.tag
             }, {
+                //dont push here, just create a mapping of the port, check if it contains the purchasing ticker, then 
+                // +=quantity but still set the balances correctly
                 $push: {
                     portfolio: {
                         ticker: purchase.ticker,
