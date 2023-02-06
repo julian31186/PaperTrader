@@ -15,10 +15,10 @@ export interface UserInt extends Document{
 }
 
 export const User = new Schema({
-    discordId: String,
-    totalBalance: Number,
-    liquidBalance: Number,
-    holdingsBalance: Number,
+    discordId: {type: String},
+    totalBalance: {type: Number},
+    liquidBalance: {type: Number},
+    holdingsBalance: {type: Number},
     portfolio: [{ticker: String,
                  quantity: Number,
                  totalPrice: Number}]

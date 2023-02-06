@@ -49,7 +49,7 @@ export const sell: Command = {
             await interaction.followUp(`You do not own ${quantity} shares of this stock!`)
             return
         } 
-        //other wise remove (quantity) amount of stock from their portfolio and update balances accordingly
+        
         let yhdata = await yahooFinance.quoteSummary(ticker)
         let updatedMarketPrice = yhdata.price.regularMarketPrice
         let portfolio = user.portfolio

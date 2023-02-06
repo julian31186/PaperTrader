@@ -14,9 +14,8 @@ export const price: Command = {
         
         try {
         const yahooFinance = require('yahoo-finance2').default;
-        //test this on intraday and see if the bid is the correct price
         ticker = interaction.options.getString('ticker')?.toUpperCase()
-        
+
         if(ticker === 'FTX') {
             await interaction.followUp("FTX IS NOT ALLOWED")
             return;

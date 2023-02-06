@@ -2,9 +2,6 @@ import { CommandInteraction, Client, ChatInputCommandInteraction, Embed } from "
 import { Command } from "../Command";
 import userModel from '../model/userSchema'
 
-
-//future fix, make a second confirmation prompt before deleting profile
-
 export const deletePortfolio: Command = {
     name: "delete_portfolio",
     description: "Deletes users portfolio allowing them to start from scratch.",
