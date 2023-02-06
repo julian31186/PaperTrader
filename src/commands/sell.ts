@@ -48,35 +48,7 @@ export const sell: Command = {
         if(stockToSell.quantity < quantity) {
             await interaction.followUp(`You do not own ${quantity} shares of this stock!`)
             return
-        } else if (stockToSell.quantity === quantity) {
-            let data = await yahooFinance.quoteSummary(ticker)
-            let updatedMarketPrice = data.price.regularMarketPrice
-
-            let portfolio = user.portfolio
-
-            let newHoldingBalance = 0;
-            for(let i = 0; i < portfolio.length; i++) {
-                const data = await yahooFinance.quoteSummary(portfolio[i].ticker);
-                const price = data.price.regularMarketPrice;
-                portfolio[i].totalPrice = price;
-                newHoldingBalance += price * portfolio[i].quantity;
-            }
-            user.holdingsBalance = newHoldingBalance;
-            user.totalBalance = user.liquidBalance + user.holdingsBalance;
-
-            let totalSellAmount = updatedMarketPrice * quantity
-
-            user.portfolio = user.portfolio.filter(purchase => purchase.ticker !== ticker)
-            user.liquidBalance += totalSellAmount
-            user.holdingsBalance -= totalSellAmount
-            user.totalBalance = user.liquidBalance + user.holdingsBalance
-            
-            await user.save()
-            await interaction.followUp('Successfully sold stock!')
-            return;
-        }
-
-
+        } 
         //other wise remove (quantity) amount of stock from their portfolio and update balances accordingly
         let yhdata = await yahooFinance.quoteSummary(ticker)
         let updatedMarketPrice = yhdata.price.regularMarketPrice
@@ -95,9 +67,11 @@ export const sell: Command = {
 
         let totalSellAmount = updatedMarketPrice * quantity
 
-
-        const partialSellTicker = portfolio.find(purchase => purchase.ticker === ticker)
-        partialSellTicker.quantity -= quantity
+        if(stockToSell.quantity === quantity) {
+            user.portfolio = user.portfolio.filter(purchase => purchase.ticker !== ticker)
+        } else {
+            stockToSell.quantity -= quantity
+        }
 
         user.liquidBalance += totalSellAmount
         user.holdingsBalance -= totalSellAmount
