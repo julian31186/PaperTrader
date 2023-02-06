@@ -30,6 +30,12 @@ export const price: Command = {
         }
 
         price = data.price.regularMarketPrice
+
+        if(isNaN(price)) {
+            await interaction.followUp("Please Enter a Valid Ticker!")
+            return
+        }
+
         let content = `The price of \$${ticker} is \$${price}`
         await interaction.followUp(content)
     }

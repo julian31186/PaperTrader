@@ -30,21 +30,30 @@ export const buy: Command = {
             price = data.price.regularMarketPrice
             totalCost = price * quantity
 
-        } catch(e) { await interaction.followUp("Please Enter a Valid Ticker!") }
+        } catch(e) { 
+            await interaction.followUp("Please Enter a Valid Ticker!") 
+            return;
+        }
 
 
 
         try {
             query = await userModel.findOne({discordId: interaction.user.tag} , {liquidBalance:1 , _id:0});
             availableCash = query?.liquidBalance;
-        } catch(e) { await interaction.followUp({content: 'Error finding user'})}
+        } catch(e) { 
+            await interaction.followUp({content: 'Error finding user'})
+            return;
+        }
 
         if(isNaN(totalCost)) {
             await interaction.followUp("Please Enter a Valid Ticker!")
             return;
         }
 
-        if(availableCash < totalCost) { await interaction.followUp("You do not have enough money for this order!") }
+        if(availableCash < totalCost) { 
+            await interaction.followUp("You do not have enough money for this order!") 
+            return;
+        }
 
         else {
             const discordId = interaction.user.tag;
