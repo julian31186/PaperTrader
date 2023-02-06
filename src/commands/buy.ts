@@ -20,6 +20,11 @@ export const buy: Command = {
         let price;
         const yahooFinance = require('yahoo-finance2').default;
 
+        if(ticker === 'FTX') {
+            await interaction.followUp("FTX IS NOT ALLOWED")
+            return;
+        }
+
         try {
             data = await yahooFinance.quoteSummary(ticker);
             price = data.price.regularMarketPrice
