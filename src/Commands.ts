@@ -7,5 +7,4 @@ import { buy } from "./commands/buy";
 import { portfolio } from "./commands/portfolio";
 import { sell } from "./commands/sell";
 
-
 export const Commands: Command[] = [price,createPortfolio,deletePortfolio,help,buy,sell,portfolio];

@@ -57,10 +57,8 @@ export const buy: Command = {
                 user.holdingsBalance += totalCost;
                 user.totalBalance = user.liquidBalance + user.holdingsBalance
             }
-
             await user.save();
             await interaction.followUp({content: 'Purchase Successful!'})
-        }
-           
+        }     
     }
 }

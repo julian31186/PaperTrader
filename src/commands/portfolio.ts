@@ -47,7 +47,7 @@ export const portfolio: Command = {
             .addFields(portfolio.map((p) => {
                 return {
                     name: `$${p.ticker}`,
-                    value: `Quantity: ${(p.quantity).toFixed(2)} \n Total Price: ${(p.totalPrice * p.quantity).toFixed(2)}`,
+                    value: `Quantity: ${(p.quantity)} \n Total Price: ${(p.totalPrice * p.quantity).toFixed(2)}`,
                 };
             }))
         
