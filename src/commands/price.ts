@@ -8,22 +8,25 @@ export const price: Command = {
     options: [{ name:"ticker" , description:'ticker requested', type:3, required:true }],
 
     run: async(client: Client, interaction: ChatInputCommandInteraction) => {
+        let data;
+        let price;
+        let ticker;
+        
         try {
         const yahooFinance = require('yahoo-finance2').default;
         //test this on intraday and see if the bid is the correct price
-        const ticker = interaction.options.getString('ticker')?.toUpperCase()
+        ticker = interaction.options.getString('ticker')?.toUpperCase()
 
-        const data = await yahooFinance.quoteSummary(ticker);
+        data = await yahooFinance.quoteSummary(ticker);
         
-        const price = data.price.regularMarketPrice
-        let content = `The price of \$${ticker} is \$${price}`
-
-
-        await interaction.followUp(content)
-
         } catch(e) {
-            console.log(e)
+            console.log(interaction.user.username)
             await interaction.followUp("Please Enter a Valid Ticker!")
+            return;
         }
+
+        price = data.price.regularMarketPrice
+        let content = `The price of \$${ticker} is \$${price}`
+        await interaction.followUp(content)
     }
 };
