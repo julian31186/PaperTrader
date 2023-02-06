@@ -6,77 +6,60 @@ import { EmbedBuilder } from "discord.js";
 export const buy: Command = {
     name: "buy",
     description: "Buy a stock",
-    options: [{ name:"ticker" , description:'ticker requested', type:3, required:true }, { name:"quantity" , description:'quantity requested', type:4, required:true }],
+    options: [
+        { name:"ticker" , description:'ticker requested', type:3, required:true }, 
+        { name:"quantity" , description:'quantity requested', type:4, required:true }
+    ],
     run: async(client: Client, interaction: ChatInputCommandInteraction)  => {
         var ticker: string = ticker = interaction.options.getString('ticker')?.toUpperCase();
         var quantity: number = quantity = interaction.options.getInteger('quantity');
         let totalCost;
         let query;
         let availableCash; 
-        var yahooStockPrices = require('yahoo-stock-prices');
+        let data;
+        let price;
+        const yahooFinance = require('yahoo-finance2').default;
 
-         
         try {
-        totalCost = (await yahooStockPrices.getCurrentData(ticker))
-        totalCost = totalCost.price * quantity
-        } catch(e) { await interaction.followUp("Please Enter a Valid Ticker!") }
+            data = await yahooFinance.quoteSummary(ticker);
+            price = data.price.regularMarketPrice
+            totalCost = price * quantity
 
+        } catch(e) { await interaction.followUp("Please Enter a Valid Ticker!") }
 
         try {
             query = await userModel.findOne({discordId: interaction.user.tag} , {liquidBalance:1 , _id:0});
             availableCash = query?.liquidBalance;
         } catch(e) { await interaction.followUp({content: 'Error finding user'})}
 
-    
+
         if(availableCash < totalCost) { await interaction.followUp("You do not have enough money for this order!") }
 
         else {
-            //create a new purchase object of the ticker, the price of the ticker and subtract that amount from liquid
-            //add the purchase object to the portfolio array of that user 
-            //figure out how to add a purchas object to mongo portfolio
+            const discordId = interaction.user.tag;
+            const user = await userModel.findOne({ discordId });
 
-
-            let testPrice = (await yahooStockPrices.getCurrentData(ticker))
-            const testPurchase: Purchase = {
-                ticker: 'GME',
-                quantity: 1,
-                totalPrice: testPrice.price,
+            if (!user) {
+                await interaction.followUp("You do not have a portfolio!")
+                return;
             }
-            // userModel.updateOne({discordId: interaction.user.tag}, {$push: {portfolio: {ticker: testPurchase.ticker, quantity: testPurchase.quantity, totalPrice: testPurchase.totalPrice}}})
-            // await interaction.followUp({content: 'Purchase Successful!'})
 
+            const portfolioIndex = user.portfolio.findIndex((p) => p.ticker === ticker);
 
-            //push the purchase object to the portfolio array of the user
-            let grabOldHoldBal = await userModel.findOne({discordId: interaction.user.tag} , {holdingsBalance:1 , _id:0});
-            let oldHoldBal = grabOldHoldBal?.holdingsBalance;
+            if (portfolioIndex === -1) {
+                user.portfolio.push({ ticker, quantity, totalPrice: price });
+                user.liquidBalance -= totalCost;
+                user.holdingsBalance += totalCost;
+                user.totalBalance = user.liquidBalance + user.holdingsBalance
+            } else {
+                user.portfolio[portfolioIndex].quantity += quantity;
+                user.liquidBalance -= totalCost;
+                user.holdingsBalance += totalCost;
+                user.totalBalance = user.liquidBalance + user.holdingsBalance
+            }
 
-            await userModel.updateOne({
-                discordId: interaction.user.tag
-            }, {
-                $push: {
-                    portfolio: {
-                        ticker: testPurchase.ticker,
-                        quantity: testPurchase.quantity,
-                        totalPrice: testPurchase.totalPrice
-                    }
-                },
-                $set: {
-                    liquidBalance: availableCash - totalCost,
-                    holdingsBalance: oldHoldBal + totalCost,
-                }
-            })
-
-            
-
-
-
+            await user.save();
             await interaction.followUp({content: 'Purchase Successful!'})
-
-
-            
-            
-
-
         }
            
     }
